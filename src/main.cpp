@@ -35,8 +35,7 @@ void loop() {
     delay(4000);  // 4s
   }
   
-  float avg_measure = sum_measure / NB_MEASURE; // calculates the average of the calibration measures
-  
+  int avg_measure = sum_measure / NB_MEASURE; // calculates the average of the calibration measures
   String mail_object = "Finished calibration:<br>";
   String mail_body = "The average for this type of soil is : " + String(avg_measure) + ".<br><br>ESP32 is asleep.<br><br>To start a new calibration press the EN button.<br>";
   ifttt_mail.post_request(MAILTO, mail_object, mail_body);
