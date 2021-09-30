@@ -25,14 +25,14 @@ To perform a new calibration, simply press the RST key.
 ![image](static/img/ifttt_add.png)
 * Search for the "Webhooks" service
 ![image](static/img/ifttt_webhooks.png)
-* Select "Receive a web request"
+* Select trigger "Receive a web request"
 ![image](static/img/ifttt_web_request.png)
  Define the event name (to keep aside it will be used in the configuration file) then create the trigger
 ![image](static/img/ifttt_event_name.png)
 * In the "Then that" section click on "add
 ![image](static/img/ifttt_then.png)
 * Search for the Gmail service
-* Then select "send an email"
+* Then select action "send an email"
 ![image](static/img/ifttt_mail.png)
 * Complete action fields like this:
 ![image](static/img/ifttt_fields.png)
