@@ -43,3 +43,21 @@ The key is at the end of the URL
 ![image](static/img/ifttt_key.png)  
 
 ## Setup 
+
+
+* First copy the template:  
+`cp lib/config/config_template.h /lib/config/config.h`
+
+* Configure the following variables with your credentials:  
+```
+// IFTTT Setting
+#define IFTTT_KEY  "YOUR_IFTTT_KEY" // Replace with your unique IFTTT Key, can be obtained at this link: https://ifttt.com/maker_webhooks/settings.
+#define GMAIL_TRIGGER "YOUR_TRIGGER_FOR_GMAIL"  // Replace with your trigger event name.
+
+// WIFI Setting
+#define WIFI_SSID "YOUR_WIFI_SSID" // Replace with your wifi ssid.
+#define WIFI_PWD "YOUR_WIFI_PASSWORD" // Replace with your wifi password
+
+// Mail Setting
+#define MAILTO "YOUR_MAIL" // Replace with your email.
+```
