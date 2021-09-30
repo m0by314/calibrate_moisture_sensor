@@ -26,8 +26,8 @@ To perform a new calibration, simply press the RST key.
 * Search for the "Webhooks" service
 ![image](static/img/ifttt_webhooks.png)
 * Select trigger "Receive a web request"
-![image](static/img/ifttt_web_request.png)
- Define the event name (to keep aside it will be used in the configuration file) then create the trigger
+![image](static/img/ifttt_web_request.png) 
+* Define the event name (to keep aside it will be used in the configuration file) then create the trigger
 ![image](static/img/ifttt_event_name.png)
 * In the "Then that" section click on "add
 ![image](static/img/ifttt_then.png)
