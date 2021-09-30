@@ -9,7 +9,7 @@ The tool performs 600 measurements and then calculates the average which gives t
 The result is sent by email via an IFTTT webhooks.  
 
 The ESP goes into hibernation at the end of the measurements.  
-To perform a new calibration, simply press the XXXX key.  
+To perform a new calibration, simply press the RST key.  
 
 ## Connect the soil moisture sensor 
 
