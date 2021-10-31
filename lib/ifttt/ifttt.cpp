@@ -1,12 +1,20 @@
 #include "ifttt.h"
-#include <config.h>
-#include <http_request.h>
 
-String Ifttt::_ifttt_url() {
-      return "http://maker.ifttt.com/trigger/" + this->_trigger + "/with/key/" + IFTTT_KEY;
+/* 
+*   Constructor
+*/
+Ifttt::Ifttt (String trigger, String ifttt_key)
+    : _trigger(trigger), _ifttt_key(ifttt_key) {}
+
+
+/* 
+*   Build ifttt url
+*/
+String Ifttt::get_url() {
+      return "http://maker.ifttt.com/trigger/" + _trigger + "/with/key/" + _ifttt_key;
 }
 
-void Ifttt::post_request(String value1, String value2, String value3) {
-    String content = "{\"value1\":\"" + value1 + "\",\"value2\":\"" + value2 + "\",\"value3\":\"" + value3 +"\"}";
-    post_http_request(this->_ifttt_url(), content);
+String Ifttt::build_content(String value1, String value2, String value3) {
+    return "{\"value1\":\"" + value1 + "\",\"value2\":\"" + value2 + "\",\"value3\":\"" + value3 +"\"}";
+   
 }
