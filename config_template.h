@@ -12,7 +12,7 @@
 
 // IFTTT Setting
 #define IFTTT_KEY  "YOUR_IFTTT_KEY" // Replace with your unique IFTTT Key, can be obtained at this link: https://ifttt.com/maker_webhooks/settings.
-#define GMAIL_TRIGGER "YOUR_TRIGGER_FOR_GMAIL"  // Replace with your trigger event name.
+#define IFTTT_EVENT_NAME "YOUR_EVENT_NAME"  // Replace with your IFTTT event name.
 
 // WIFI Setting
 #define WIFI_SSID "YOUR_WIFI_SSID" // Replace with your wifi ssid.
