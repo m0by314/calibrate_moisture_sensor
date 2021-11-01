@@ -1,6 +1,13 @@
 # Calibrate soil moisture sensor
 Tool to calibrate a soil moisture sensor for a desired soil type with an ESP32  
- _(Tested with captor YL69 amd module HC-38)_  
+ _(Tested with captor YL69 and module HC-38)_  
+
+## Summary
+ - [How it works](#How-it-works)
+ - [Connect the soil moisture sensor](#Connect-the-soil-moisture-sensor)
+ - [Create IFTTT webhooks](#Create-IFTTT-webhooks)
+ - [Setup](#Setup)
+
 
 ## How it works
 
@@ -11,7 +18,7 @@ The result is sent by email via an IFTTT webhooks.
 The ESP goes into hibernation at the end of the measurements.  
 To perform a new calibration, simply press the RST key.  
 
-## Connect the soil moisture sensor 
+## Connect the soil moisture sensor
 
 ![image](static/img/Soil_Moisture_Interfacing_Diagram.png)
 
@@ -61,3 +68,8 @@ The key is at the end of the URL
 // Mail Setting
 #define MAILTO "YOUR_MAIL" // Replace with your email.
 ```
+
+## Built with
+
+* ESP32 NodeMCU Module WLAN WiFi Development Board with CP2102 
+* Moisture sensor YL69 and module HC-38
