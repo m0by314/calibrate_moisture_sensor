@@ -7,6 +7,7 @@ Tool to calibrate a soil moisture sensor for a desired soil type with an ESP32
  - [Connect the soil moisture sensor](#Connect-the-soil-moisture-sensor)
  - [Create IFTTT webhooks](#Create-IFTTT-webhooks)
  - [Setup](#Setup)
+ - [Built with](#Built-with)
 
 
 ## How it works
