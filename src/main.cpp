@@ -3,10 +3,10 @@
 #include <wifi_c.h>
 #include <http_request.h>
 #include <ifttt.h>
-#include "config.h"
+#include "../config.h"
 
 // Prototype
-Ifttt ifttt_mail(GMAIL_TRIGGER, IFTTT_KEY);   // Initialize Ifttt object with Gmail trigger.
+Ifttt ifttt_mail(IFTTT_EVENT_NAME, IFTTT_KEY);   // Initialize Ifttt object with Gmail trigger.
 Wifi wifi(WIFI_SSID, WIFI_PWD);               // Initialize wifi object
 
 // Variables
