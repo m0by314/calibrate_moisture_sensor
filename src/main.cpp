@@ -23,12 +23,7 @@ void setup() {
     esp_deep_sleep_start();
   }
   
-  delay(2000); 
-}
-  
-void loop() {  
   Serial.println("Reading From the Sensor ...");
-  
   // Performs the measurements.
   for (int n_measure = 0; n_measure < NB_MEASURE; n_measure++){
     int soil_moisture = analogRead(MOISTURE_SENSOR_PIN);
@@ -49,9 +44,11 @@ void loop() {
   // Send mail
   post_http_request(url, content);
   
+  // Start deep sleep
   Serial.println("Calibration finish, going to sleep ...");
-  
   delay(2000);
-  
   esp_deep_sleep_start();
 }
+  
+void loop() {}
+
