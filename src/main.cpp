@@ -1,13 +1,10 @@
 #include <Arduino.h>
 
-#include <wifi_c.h>
-#include <http_request.h>
 #include <ifttt.h>
 #include "../config.h"
 
 // Prototype
-Ifttt ifttt_mail(IFTTT_EVENT_NAME, IFTTT_KEY);   // Initialize Ifttt object with Gmail trigger.
-Wifi wifi(WIFI_SSID, WIFI_PWD);               // Initialize wifi object
+Ifttt ifttt_mail(IFTTT_EVENT_NAME, IFTTT_KEY, WIFI_SSID, WIFI_PWD);   // Initialize Ifttt object with Gmail trigger.
 
 // Variables
 int sum_measure;
@@ -18,8 +15,11 @@ void setup() {
   pinMode(MOISTURE_SENSOR_PIN,INPUT);
   adcAttachPin(MOISTURE_SENSOR_PIN);
   
-  if (!wifi.connect()){
-    Serial.print("ERROR: WiFI fail connection\n");
+  // Connect to ifttt
+  ifttt_mail.connect();
+
+  // Check connection
+  if (!ifttt_mail.is_connected()){
     esp_deep_sleep_start();
   }
   
@@ -38,11 +38,9 @@ void setup() {
   // Built the mail 
   String mail_object = "Finished calibration:<br>";
   String mail_body = "The average for this type of soil is : " + String(avg_measure) + ".<br><br>ESP32 is asleep.<br><br>To start a new calibration press the EN button.<br>";
-  String url = ifttt_mail.get_url();
-  String content = ifttt_mail.build_content(MAILTO, mail_object, mail_body);
 
   // Send mail
-  post_http_request(url, content);
+  ifttt_mail.post_request(MAILTO, mail_object, mail_body);
   
   // Start deep sleep
   Serial.println("Calibration finish, going to sleep ...");
