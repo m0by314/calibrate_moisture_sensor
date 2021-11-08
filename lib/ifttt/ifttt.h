@@ -2,8 +2,7 @@
 #define _IFTTT_H_
 
 #include <Arduino.h>
-#include <WiFi.h>
-#include <HTTPClient.h>
+
 
 class Ifttt {
     public:

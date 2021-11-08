@@ -1,5 +1,6 @@
 #include "ifttt.h"
 
+#include <unistd.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
 
