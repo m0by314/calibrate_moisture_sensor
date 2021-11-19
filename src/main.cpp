@@ -36,7 +36,7 @@ void setup() {
   int avg_measure = sum_measure / NB_MEASURE; 
 
   // Built the mail 
-  String mail_object = "Finished calibration:<br>";
+  String mail_object = "Finished calibration";
   String mail_body = "The average for this type of soil is : " + String(avg_measure) + ".<br><br>ESP32 is asleep.<br><br>To start a new calibration press the EN button.<br>";
 
   // Send mail
