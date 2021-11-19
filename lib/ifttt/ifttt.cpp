@@ -1,86 +1,113 @@
 #include "ifttt.h"
 
 #include <unistd.h>
-#include <WiFi.h>
-#include <HTTPClient.h>
+#include <Client.h>
 
-HTTPClient http;
 
-/* 
-*   Constructor
+#define HOST "maker.ifttt.com"
+#define SSL_PORT 443
+
+
+/**
+ * Constructor
 */
-Ifttt::Ifttt (String trigger_name, String ifttt_key, const char* ssid, const char* pwd) {
-    this->_trigger_name = trigger_name;
-    this->_ifttt_key = ifttt_key;
-    this->_ssid = ssid;
-    this->_pwd = pwd;
+IFTTT::IFTTT (const char* ifttt_key, Client &client) {
+    this->_key = ifttt_key;
+    this->_client = &client;
 }
 
-/*
-* WiFi connection
+/**
+ * Send trigger to IFTTT webhook
+ * 
+ * @param eventName Webhook event name
+ * @param value1 value passed to webhook
+ * @param value2 value passed to webhook
+ * @param value3 value passed to webhook
+ * @param debug   if true displays the debugging messages by default false
+ * 
+ * @return true when trigger event is correctly sent
 */
-void Ifttt::connect() {
-    if (WiFi.status() != WL_CONNECTED){
-        WiFi.begin(this->_ssid, this->_pwd);
-    
-        int timeout = 10;  // 10 seconds
+bool IFTTT::triggerEvent(String eventName , String value1, String value2, String value3, bool debug){
+    String response = "";
+    String payload = _build_payload(value1,value2,value3, debug);
+    int payload_len = payload.length();
 
-        while(WiFi.status() != WL_CONNECTED  && (timeout-- > 0)) {
-            Serial.print(".");
-            sleep(1);  // sleep 1s 
-        }
-    }   
-}
-
-/*
-* Check if the WiFi is connected
-*/
-bool Ifttt::is_connected() {
-    if (WiFi.status() != WL_CONNECTED) {
-        Serial.println("ERROR: WiFi fail connection");
-        return false;
+    if (!_client->connect(HOST, SSL_PORT)) {
+        if (debug) Serial.println("Connection failed!");
+        _client->stop();
     }
     else {
-        Serial.println("WiFi connected, IP address: "); 
-        Serial.println(WiFi.localIP());  
-        return true;
-    }  
+        if (debug) Serial.println("Connected to server!");
+        
+        // Make a HTTP request:
+        _client->println("POST /trigger/"+eventName+"/with/key/"+_key + " HTTP/1.1");
+        
+        // Headers
+        _client->print("Host:"); _client->println(HOST);
+        _client->println("Content-Type: application/json");
+        _client->print("Content-Length: "); _client->println(payload_len);
+        _client->println("Connection: Close");
+        _client->println();
+
+        // POST message body
+        _client->println(payload);
+        _client->println();
+    
+        // Wait for server response
+        while (_client->available() == 0);
+
+	    while (_client->available()) {
+		    char c = _client->read();
+            response = response + c;
+	    }
+    }
+    if (debug) {
+        Serial.println("Response:");
+        Serial.println(response);
+    }
+    return _check_response_success(response);
 }
 
-/*
-* Send ifttt request
-*/
-void Ifttt::post_request(String field1, String field2, String field3){
-  //Start to send data to url
-  http.begin(this->_build_url());
+/**
+ * Verify response success
+ * 
+ * @param response response provide by the client
+ * @return true in case of sucess
+ */
+bool IFTTT::_check_response_success(String response) {
 
-  // Specify content-type header
-  http.addHeader("Content-Type", "application/json");
-  
-  int httpResponseCode = http.POST(this->_build_content(field1, field2, field3));
-  
-  if (httpResponseCode != 200) {
-    Serial.print("ERROR post http request return code: ");
-    Serial.println(httpResponseCode);
-  }
-  http.end();
+  int index = response.indexOf("Congratulations!");
+
+  return index > -1;
 }
 
-/*******************
- * Private Method *
- * ****************/
-/* 
-*   Build url 
-*/
-String Ifttt::_build_url() {
-      return "http://maker.ifttt.com/trigger/" + this->_trigger_name + "/with/key/" + this->_ifttt_key;
-}
 
-/* 
-*   Build content
+/**
+ * Build content
+ * @param value1 value passed to webhook
+ * @param value2 value passed to webhook
+ * @param value3 value passed to webhook
+ * @param debug  if true displays the debugging messages by default false
+ * 
+ * @return payload
 */ 
-String Ifttt::_build_content(String field1, String field2, String field3) {
-    return "{\"value1\":\"" + field1 + "\",\"value2\":\"" + field2 + "\",\"value3\":\"" + field3 +"\"}";
-   
+String IFTTT::_build_payload(String value1, String value2, String value3, bool debug) {
+    String payload = "{";
+    if (value1) {
+        payload = payload + "\"value1\":\"" + value1;
+    }
+    if (value2) {
+        payload = payload + "\",\"value2\":\"" + value2;
+    }
+    if (value3) {
+        payload = payload + "\",\"value3\":\"" + value3;
+    }
+    payload += "\"}";
+
+    if (debug) {
+        Serial.println("Payload:");
+        Serial.println(payload);
+    }
+    return payload;
 }
 
